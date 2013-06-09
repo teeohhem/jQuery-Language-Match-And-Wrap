@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<link href="css/jquery.languageMatchAndWrap.css" rel="stylesheet" type="text/css" />
+<body>
+<p>
+ברוכים הבאים הביתה לכולם
+</p>
+<p>
+English Language Text
+</p>
+<p>
+איך העולם עושה?
+</p>
+<p>
+More English
+</p>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="js/jquery.languageMatchAndWrap.js"></script>
+<script>
+$(function() {
+    $("p").languageMatchAndWrap({language:'he'}); //Find hebrew text and wrap it
+});
+</script>
+</body>
+</html>

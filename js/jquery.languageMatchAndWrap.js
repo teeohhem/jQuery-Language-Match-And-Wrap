@@ -18,8 +18,8 @@
     var defaultOptions = {
         language : 'en',
         regExMap : {
-            english: /(\S*[\u0041-\u005A][\u0061-\u007A]+\S*)/g,
-            hebrew: /(\S*[\u0590-\u05FF]+\S*)/g
+            en: /(\S*[\u0041-\u005A][\u0061-\u007A]+\S*)/g,
+            he: /(\S*[\u0590-\u05FF]+\S*)/g
         }
     };
 })(jQuery);

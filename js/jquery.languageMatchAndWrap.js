@@ -155,17 +155,10 @@
         
         process.setTagRegExp(options);
         
-        //If selector Array passed in, recursive call for each
-        if(this.length > 1){
-            this.each(function() {
-                $(this).languageMatchAndWrap(options);
-            });
-            return this;
-        }
-        else {
-            this.html(process.runMatch(this, options));
-            return this;
-        }
+        this.each(function() {
+            $(this).html(process.runMatch(this, options));
+        });
+        return this;
     };
      
     var defaultOptions = {

@@ -17,8 +17,9 @@ $("p").languageMatchAndWrap(
 
 <h2>Notes</h2>
 <ol>
-<li> Only pass in elements that do NOT have html in them (aka text elements). Make your selectors specific enough to only contain lowest level element with text. Why didn't I just handle that in the code? The issue lies with html elements that contain text, such as title in which this code would add spans to. Sure I could've changed the code to try and detect that, but I wanted it to be as simple and efficient as possible</li>
-<li>This was tested with jQuery 1.9.1</li>
+<li>Elements can contain only text or it can contain both HTML and text. The plugin will traverse the child nodes and their children (and so on) if they exist.</li>
+<li>There may be a performance hit depending on how deep the child node list is. This has not been fully performance tested.</li>
+<li>This was tested with jQuery 1.7.2 and jQuery 1.9.1</li>
 </ol>
 <p>More information: http://www.teeohhem.com</p>
 

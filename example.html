@@ -2,23 +2,28 @@
 <html lang="en">
 <link href="css/jquery.languageMatchAndWrap.css" rel="stylesheet" type="text/css" />
 <body>
+<div id="container" class="langMatch">
 <p>
-ברוכים הבאים הביתה לכולם
+English Language Text before Hebrew: ברוכים הבאים 2013 הביתה לכולם
 </p>
 <p>
 English Language Text
 </p>
 <p>
+דיוקנו של ההוגה כאיש צעיר
+<a href="http://google.com">
 איך העולם עושה?
+</a>
 </p>
 <p>
 More English
 </p>
+</div>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="js/jquery.languageMatchAndWrap.js"></script>
 <script>
 $(function() {
-    $("p").languageMatchAndWrap({language:'he'}); //Find hebrew text and wrap it
+    $("#container").languageMatchAndWrap({language:'he'}); //Find hebrew text and wrap it
 });
 </script>
 </body>

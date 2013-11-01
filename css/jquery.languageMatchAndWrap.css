@@ -1,9 +1,9 @@
-span[lang='he'] {
+bdo[lang='he'] {
     font-family: 'unicodeFont' Arial, sans-serif;
     font-size:110%;
 }
  
-span[lang='en'] {
+bdo[lang='en'] {
     font-family: Arial, sans-serif;
 }
 

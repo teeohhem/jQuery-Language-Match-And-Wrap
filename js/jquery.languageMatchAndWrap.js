@@ -1,11 +1,8 @@
 /*
  * Right-to-Left Text Wrapper 2.0, jQuery plugin
  *
- * Copyright(c) 2013, Thomas Alexander
+ * Copyright(c) 2013, Thomas Alexander and Jason Kent
  * https://github.com/teeohhem/jQuery-Language-Match-And-Wrap
- *
- * 2.0 Rewrite by Jason Kent
- * https://github.com/kentjas1/jQuery-Language-Match-And-Wrap
  *
  * A jQuery plugin to find text from a certain language on your webpage, wrap it in a bdo[lang=''] so you 
  * can style text from different languages or assist screen readers in reading mixed content on your page.
@@ -94,8 +91,6 @@
                 if($.browser.msie || $.browser.mozilla){
                     result = result.replace(regExTagCleanIE, "</span>&nbsp;").replace(regExTagCleanIE2, "</span>&nbsp;");
                 }
-                //console.log("cleanTags METHOD: *" + result);
-                //alert("cleanTags METHOD: *" + result);
                 return result;
             },
            /*
@@ -109,8 +104,6 @@
                 //Because of an issue with Firefox's RegExp engine, must re-declare regex test on every call
                 var userLangTest = new RegExp(regExUserLang),
                     result = userLangTest.test(elem);
-                
-                //console.log("containsUserLang METHOD: *" + result);
                 return result;
             },
            /*
@@ -127,8 +120,6 @@
                     englishText = new RegExp(regExEnglish);
                 
                 boolReturn = (specialCharTest.test(elem) || numberTest.test(elem))  && !englishText.test(elem);
-                
-                //console.log("nonAlphaText METHOD: *" + boolReturn);
                 
                 return boolReturn;
             },
@@ -169,7 +160,6 @@
                     arrayHTML = "";
                  
                 elemBlock.each(function(index){
-                    //console.log("adjustValues METHOD - elemBlock index at: *" + index);
                     if(this.nodeType === 3){
                         //checking that its more than just white space
                         if($.trim(this.nodeValue).length !== 0){
@@ -178,30 +168,24 @@
                                 //Adjust mark-up of numbers for better cross-browser support
                                 curStr = process.numberOverride(this.nodeValue);
                                 
-                                //console.log("adjustValues METHOD - elemBlock: contains non Alpha, contents length: *" + contentsArr.length);
                                 if(contentsArr.length > 0){
-                                    //console.log("adjustValues METHOD - contentsArr > 0, appending: *" + this.nodeValue + " and previous elem is  *" + contentsArr[(contentsArr.length - 1)]);
                                     arrayHTML = process.getHTML(contentsArr[(contentsArr.length - 1)]);
                                     contentsArr[(contentsArr.length - 1)] = process.getHTML($(arrayHTML).append(curStr));
                                 }
                                 else if(elemBlock.length > (index + 1)){
-                                    //console.log("adjustValues METHOD - elemBlock: array 0, prepending");
                                     $(elemBlock[(index + 1)]).prepend(curStr);
                                 }
                                 else {
-                                    //console.log("adjustValues METHOD: no more, just pushing: *" + elemBlock.length + "/" + index + 1);
                                     contentsArr.push(process.getHTML(this));
                                 }
                             } 
                             else {
                                 contentsArr.push(process.getHTML(this));
-                                //console.log("adjustValues METHOD - elemBlock: no nonalpha, pushed length at: *" + contentsArr.length + "  ===  " + contentsArr);
                             }
                         }
                     }
                     else {
                         contentsArr.push(process.getHTML(this));
-                        //console.log("adjustValues METHOD - elemBlock: not a text node, pushed length at: *" + contentsArr.length + "  ===  " + contentsArr);
                     }
                 });
                 
@@ -238,7 +222,6 @@
                     splitSize = 0;
                 
                 if(splitReg.test(elem)){
-                    //console.log("matchText METHOD - contains '/' : *" + elem);
                     splitList = elem.split("/");
                     
                     //Evaluate split to see if text on either side of '/' contain either RTL or only numbers
@@ -248,11 +231,9 @@
                        } 
                     });
                     
-                    //console.log("matchText METHOD - split differences : " + splitSize + "/" + splitList.length);
                     //if not all text between '/' contains RTL or only numbers, evaluate each section separately, re-adding '/'
                     if(splitSize !== splitList.length){
                         for(m; m < splitList.length; m++){
-                            //console.log("matchText METHOD - loop at : *" + splitList[m]);
                             //Only send to wrapper function if text contains RTL
                             if(process.containsUserLang(splitList[m])){
                                 tmp = process.wrapRTL(splitList[m]);
@@ -271,12 +252,10 @@
                         tmp = stringArr.join('');
                     }
                     else {
-                        //console.log("matchText METHOD - all items in list contain RTL or only numbers, evaluate as a whole");
                         tmp = process.wrapRTL(elem);
                     }
                 } 
                 else {
-                    //console.log("matchText METHOD - text doesn't contain '/'");
                     tmp = process.wrapRTL(elem);
                 }
                 
@@ -349,4 +328,4 @@
             }
     };
     
-})(jQuery);
+})(Zepto || jQuery);

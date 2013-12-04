@@ -121,9 +121,7 @@
        /*
         * Method 'adjustValues' evaluates text between <bdo> tags for numbers and special characters to be 
         * included with the surrounding language properly
-        * 
         * @param {String} of first pass of <bdo> wrapped text
-        * 
         * @return {String} of sanitized unwrapped text 
         */  
         this.adjustValues = function(elem){
@@ -168,11 +166,8 @@
         },
        /* 
         * Method 'wrapRTL' wraps rtl text with <bdo> tag then calls 'adjustValues' to evaluate data between tags
-        * 
         * @param {String} containing right-to-left text
-        * 
         * @return {String} of wrapped right-to-left text
-        * 
         */
         this.wrapRTL = function(elem){
             var tmp = elem.replace(regExUserLang, bdoStart + "$1" + bdoEnd);
@@ -182,9 +177,7 @@
        /*
         * Method 'matchText' evaluates text containing mixed languages to determine if they should be evaluated 
         * separately then sends to wrapper method
-        * 
         * @param {String} plain text containing mixed languages
-        * 
         * @return {String} of user-defined language text wrapped in <bdo> tags
         */
         this.matchText = function(elem){
@@ -238,10 +231,8 @@
        /*
         * Method 'runMatch' separates out the plain text from HTML elements, evaluates the plain text, recursive
         * call if HTML element
-        * 
         * @param {Object} jQuery Object to be evaluated
         * @param {Object} user defined options
-        * 
         * @return {String} of completed text to be sent back to the DOM
         */
         this.runMatch = function(elem, options){

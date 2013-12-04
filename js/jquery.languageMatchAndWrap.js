@@ -126,7 +126,7 @@
         */  
         this.adjustValues = function(elem){
             
-            var elemBlock = process.getContents(elem),
+            var elemBlock = this.getContents(elem),
                 contentsArr = [],
                 curStr = "",
                 arrayHTML = "";
@@ -136,28 +136,28 @@
                     //checking that its more than just white space
                     if($.trim(this.nodeValue).length !== 0){
                         
-                        if(process.nonAlphaText(this.nodeValue)){
+                        if(this.nonAlphaText(this.nodeValue)){
                             //Adjust mark-up of numbers for better cross-browser support
-                            curStr = process.numberOverride(this.nodeValue);
+                            curStr = this.numberOverride(this.nodeValue);
                             
                             if(contentsArr.length > 0){
-                                arrayHTML = process.getHTML(contentsArr[(contentsArr.length - 1)]);
-                                contentsArr[(contentsArr.length - 1)] = process.getHTML($(arrayHTML).append(curStr));
+                                arrayHTML = this.getHTML(contentsArr[(contentsArr.length - 1)]);
+                                contentsArr[(contentsArr.length - 1)] = this.getHTML($(arrayHTML).append(curStr));
                             }
                             else if(elemBlock.length > (index + 1)){
                                 $(elemBlock[(index + 1)]).prepend(curStr);
                             }
                             else {
-                                contentsArr.push(process.getHTML(this));
+                                contentsArr.push(this.getHTML(this));
                             }
                         } 
                         else {
-                            contentsArr.push(process.getHTML(this));
+                            contentsArr.push(this.getHTML(this));
                         }
                     }
                 }
                 else {
-                    contentsArr.push(process.getHTML(this));
+                    contentsArr.push(this.getHTML(this));
                 }
             });
             
@@ -172,7 +172,7 @@
         this.wrapRTL = function(elem){
             var tmp = elem.replace(regExUserLang, bdoStart + "$1" + bdoEnd);
             
-            return process.adjustValues(tmp);
+            return this.adjustValues(tmp);
         },
        /*
         * Method 'matchText' evaluates text containing mixed languages to determine if they should be evaluated 
@@ -193,7 +193,7 @@
                 
                 //Evaluate split to see if text on either side of '/' contain either RTL or only numbers
                 splitList.forEach(function(curListElem){
-                   if(process.containsUserLang(curListElem) || process.nonAlphaText(curListElem)){
+                   if(this.containsUserLang(curListElem) || this.nonAlphaText(curListElem)){
                        splitSize++;
                    } 
                 });
@@ -202,8 +202,8 @@
                 if(splitSize !== splitList.length){
                     for(m; m < splitList.length; m++){
                         //Only send to wrapper function if text contains RTL
-                        if(process.containsUserLang(splitList[m])){
-                            tmp = process.wrapRTL(splitList[m]);
+                        if(this.containsUserLang(splitList[m])){
+                            tmp = this.wrapRTL(splitList[m]);
                         }
                         else {
                             tmp = splitList[m];
@@ -219,14 +219,14 @@
                     tmp = stringArr.join('');
                 }
                 else {
-                    tmp = process.wrapRTL(elem);
+                    tmp = this.wrapRTL(elem);
                 }
             } 
             else {
-                tmp = process.wrapRTL(elem);
+                tmp = this.wrapRTL(elem);
             }
             
-            return process.cleanTags(tmp);
+            return this.cleanTags(tmp);
         },
        /*
         * Method 'runMatch' separates out the plain text from HTML elements, evaluates the plain text, recursive
@@ -244,8 +244,8 @@
                 //if the element is text, evaluate language
                 if(this.nodeType === 3){
                     //only send to wrapper function if text contains rtl language
-                    if(process.containsUserLang(this.nodeValue)){ 
-                        tempElem = process.matchText($.trim(this.nodeValue));
+                    if(this.containsUserLang(this.nodeValue)){ 
+                        tempElem = this.matchText($.trim(this.nodeValue));
                     }
                     else {
                         tempElem = this.nodeValue;
@@ -253,10 +253,10 @@
                 }
                 //if its HTML then recursive call on the HTML element
                 else if(this.nodeType !== 8 && this.nodeName !== "BR"){
-                    tempElem = process.getHTML($(this).languageMatchAndWrap(options));
+                    tempElem = this.getHTML($(this).languageMatchAndWrap(options));
                 }
                 else {
-                    tempElem = process.getHTML(this);
+                    tempElem = this.getHTML(this);
                 }
                 elemArr.push(tempElem);
             });
@@ -279,8 +279,8 @@
         regExNumber = "",
         regExSpecial = "",
         evaluatedResult = "",
-        process =  new LanguageWrapper(), 
-        dir = process.getDirection(),
+        wrapper =  new LanguageWrapper(), 
+        dir = wrapper.getDirection(),
         defaultOptions = {
             language : 'en',
             languageRegExMap : {
@@ -297,10 +297,10 @@
         options = $.extend(true,defaultOptions,options);
         
         //Initialize the RegExp values
-        process.init(options);
+        wrapper.init(options);
         
         this.each(function() {
-            evaluatedResult = process.runMatch(this, options);
+            evaluatedResult = wrapper.runMatch(this, options);
             $(this).empty().html(evaluatedResult); //for IE7&8 support, must call .empty()
         });
         return this;

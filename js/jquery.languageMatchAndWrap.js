@@ -259,7 +259,7 @@
                     tempElem = self.getHTML($(this).languageMatchAndWrap(options));
                 }
                 else {
-                    tempElem = this.getHTML(this);
+                    tempElem = self.getHTML(this);
                 }
                 elemArr.push(tempElem);
             });

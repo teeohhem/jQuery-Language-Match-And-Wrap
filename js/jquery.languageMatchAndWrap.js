@@ -129,35 +129,36 @@
             var elemBlock = this.getContents(elem),
                 contentsArr = [],
                 curStr = "",
-                arrayHTML = "";
+                arrayHTML = "",
+                self = this;
              
             elemBlock.each(function(index){
                 if(this.nodeType === 3){
                     //checking that its more than just white space
                     if($.trim(this.nodeValue).length !== 0){
                         
-                        if(this.nonAlphaText(this.nodeValue)){
+                        if(self.nonAlphaText(this.nodeValue)){
                             //Adjust mark-up of numbers for better cross-browser support
-                            curStr = this.numberOverride(this.nodeValue);
+                            curStr = self.numberOverride(this.nodeValue);
                             
                             if(contentsArr.length > 0){
-                                arrayHTML = this.getHTML(contentsArr[(contentsArr.length - 1)]);
-                                contentsArr[(contentsArr.length - 1)] = this.getHTML($(arrayHTML).append(curStr));
+                                arrayHTML = self.getHTML(contentsArr[(contentsArr.length - 1)]);
+                                contentsArr[(contentsArr.length - 1)] = self.getHTML($(arrayHTML).append(curStr));
                             }
                             else if(elemBlock.length > (index + 1)){
                                 $(elemBlock[(index + 1)]).prepend(curStr);
                             }
                             else {
-                                contentsArr.push(this.getHTML(this));
+                                contentsArr.push(self.getHTML(this));
                             }
                         } 
                         else {
-                            contentsArr.push(this.getHTML(this));
+                            contentsArr.push(self.getHTML(this));
                         }
                     }
                 }
                 else {
-                    contentsArr.push(this.getHTML(this));
+                    contentsArr.push(self.getHTML(this));
                 }
             });
             
@@ -186,14 +187,15 @@
                 stringArr = [],
                 tmp = "",
                 m = 0,
-                splitSize = 0;
+                splitSize = 0,
+                self = this;
             
             if(splitReg.test(elem)){
                 splitList = elem.split("/");
                 
                 //Evaluate split to see if text on either side of '/' contain either RTL or only numbers
                 splitList.forEach(function(curListElem){
-                   if(this.containsUserLang(curListElem) || this.nonAlphaText(curListElem)){
+                   if(self.containsUserLang(curListElem) || self.nonAlphaText(curListElem)){
                        splitSize++;
                    } 
                 });
@@ -238,14 +240,15 @@
         this.runMatch = function(elem, options){
             elem = elem instanceof jQuery ? elem : $(elem);
             var curElem = elem.contents(),
-                elemArr = [];
+                elemArr = [],
+                self = this;
             
             curElem.each(function(){
                 //if the element is text, evaluate language
                 if(this.nodeType === 3){
                     //only send to wrapper function if text contains rtl language
-                    if(this.containsUserLang(this.nodeValue)){ 
-                        tempElem = this.matchText($.trim(this.nodeValue));
+                    if(self.containsUserLang(this.nodeValue)){ 
+                        tempElem = self.matchText($.trim(this.nodeValue));
                     }
                     else {
                         tempElem = this.nodeValue;
@@ -253,7 +256,7 @@
                 }
                 //if its HTML then recursive call on the HTML element
                 else if(this.nodeType !== 8 && this.nodeName !== "BR"){
-                    tempElem = this.getHTML($(this).languageMatchAndWrap(options));
+                    tempElem = self.getHTML($(this).languageMatchAndWrap(options));
                 }
                 else {
                     tempElem = this.getHTML(this);
